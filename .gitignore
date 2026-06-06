@@ -8,3 +8,9 @@ dist/
 *.key
 *.pem
 secrets/
+# internal / working docs — this repo is PUBLIC-facing; keep these local-only
+HANDOFF.md
+internal/
+*.internal.md
+NOTES.md
+TODO.local.md
