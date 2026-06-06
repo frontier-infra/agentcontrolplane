@@ -1,0 +1,16 @@
+{
+  "name": "@frontier-infra/aar",
+  "version": "0.1.0",
+  "description": "Agent Attestation Record (AAR) — sign + verify portable, ground-truthed proof of what an agent actually did. Reference tooling for agentcontrolplane.org.",
+  "type": "module",
+  "bin": { "aar": "tools/aar.mjs" },
+  "scripts": {
+    "verify:fixtures": "node tools/aar.mjs verify specs/fixtures/valid/helpdesk-ack.json --did-json specs/fixtures/.well-known/did.json && node tools/aar.mjs verify specs/fixtures/valid/fabrication-caught.json --did-json specs/fixtures/.well-known/did.json"
+  },
+  "files": ["tools", "specs", "README.md", "CONFORMANCE.md", "GOVERNANCE.md", "LICENSE"],
+  "keywords": ["agent", "attestation", "provenance", "did", "ed25519", "agent-control-plane", "governance"],
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "repository": { "type": "git", "url": "git+https://github.com/frontier-infra/agentcontrolplane.git" },
+  "homepage": "https://agentcontrolplane.org"
+}

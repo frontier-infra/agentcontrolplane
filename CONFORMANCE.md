@@ -53,13 +53,25 @@ the same staging AVL uses. Each level is a strict superset of the one below.
 
 ## Validator
 
-A first-party validator CLI is planned (sibling to `@frontier-infra/avl`). Until then,
-conformance is checked against the fixtures:
+A zero-dependency reference signer/verifier ships in [`tools/aar.mjs`](tools/aar.mjs)
+(Node ≥ 20). It performs real Ed25519 signing/verification over the minimal JCS
+canonicalization and reports the conformance level reached:
 
-```text
-specs/fixtures/valid/      # records that MUST pass at the stated level
-specs/fixtures/invalid/    # records that MUST fail, with the reason in a top comment
+```bash
+node tools/aar.mjs verify specs/fixtures/valid/helpdesk-ack.json \
+  --did-json specs/fixtures/.well-known/did.json     # → conformance: L2
+node tools/aar.mjs verify specs/fixtures/invalid/self-verified.json \
+  --did-json specs/fixtures/.well-known/did.json     # → L1 (sig valid, fails L2 independence)
 ```
 
-Check groups (planned): `record.*`, `signature.*`, `ground_truth.*`, `independence.*`,
-`log.*`.
+Conformance is pinned by the fixtures:
+
+```text
+specs/fixtures/valid/      # records that MUST verify at the stated level (real signatures)
+specs/fixtures/invalid/    # records that MUST fail; `_invalid_reason` says why
+specs/fixtures/.well-known/did.json   # the test public key the vectors verify against
+```
+
+Current checks: `signature` (Ed25519 only — symmetric MACs fail L0), required-field
+presence, `ground_truth` (L1), `quality` + verifier-independence (`verifier.id != subject`,
+L2). Planned: transparency-log `prior`/`log` checks (L3), full RFC 8785 number handling.

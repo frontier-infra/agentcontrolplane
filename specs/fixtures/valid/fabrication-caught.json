@@ -10,7 +10,15 @@
   "quality": "none",
   "ground_truth": "contradicted",
   "reason": "agent claimed 0 unread, but the mail API reports 3 unread at check time; claim overridden by ground truth",
-  "verifier": { "id": "did:web:example.com:angel", "model": "claude-haiku-4-5", "independent": true },
+  "verifier": {
+    "id": "did:web:example.com:angel",
+    "model": "claude-haiku-4-5",
+    "independent": true
+  },
   "issued": "2026-06-05T09:31:58Z",
-  "sig": { "alg": "Ed25519", "by": "did:web:example.com", "value": "PLACEHOLDER-ed25519-sig-see-fixtures-README" }
+  "sig": {
+    "alg": "Ed25519",
+    "by": "did:web:example.com",
+    "value": "mtlNeYORNFXxtg5P9ArjHTA62sp9B1Y7WoatvXxGx0b2yZEWqeJsBXuHr3iENPKKIqKvIoNsKdwG72z-QBtuCw"
+  }
 }

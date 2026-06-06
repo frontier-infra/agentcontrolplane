@@ -3,12 +3,23 @@
   "aar": "0.1",
   "subject": "did:web:agents.example.com:worker-7",
   "principal": "did:web:example.com",
-  "task": { "id": "task-0042", "claim": "ran the nightly backup and verified the archive" },
+  "task": {
+    "id": "task-0042",
+    "claim": "ran the nightly backup and verified the archive"
+  },
   "verdict": "verified",
   "quality": "substantive",
   "ground_truth": "confirmed",
   "reason": "I checked my own work and it looks done",
-  "verifier": { "id": "did:web:agents.example.com:worker-7", "model": "self", "independent": false },
+  "verifier": {
+    "id": "did:web:agents.example.com:worker-7",
+    "model": "self",
+    "independent": false
+  },
   "issued": "2026-06-05T02:12:40Z",
-  "sig": { "alg": "Ed25519", "by": "did:web:example.com", "value": "PLACEHOLDER-ed25519-sig-see-fixtures-README" }
+  "sig": {
+    "alg": "Ed25519",
+    "by": "did:web:example.com",
+    "value": "C52fgCtx7VfUOaDmpdMCey8aqtNmt7wo3k7aLjO9-AHx5SY7kJz1xAXrcmBFFEv8U0ewiLfrMGp68BVdAVNQDw"
+  }
 }

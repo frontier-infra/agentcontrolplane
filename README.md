@@ -73,6 +73,22 @@ they can't build without surrendering that. AAR plants the flag there:
 
 No call to any issuer. The guarantee travels with the record.
 
+**Run it** (zero-dependency reference tool, Node ≥ 20):
+
+```bash
+node tools/aar.mjs keygen --did did:web:example.com         # Ed25519 key + did.json
+node tools/aar.mjs sign   record.json --priv secrets/k.json # real signature
+node tools/aar.mjs verify record.json                       # resolve did:web, check sig + level
+
+# verify the bundled vectors offline:
+node tools/aar.mjs verify specs/fixtures/valid/helpdesk-ack.json \
+  --did-json specs/fixtures/.well-known/did.json
+#  [✓] L0  Ed25519 signature valid
+#  [✓] L1  ground_truth=confirmed
+#  [✓] L2  quality=substantive · independent verifier
+#  → conformance: L2
+```
+
 ## Conformance
 
 | Level | Adds | For |

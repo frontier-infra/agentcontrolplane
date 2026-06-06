@@ -10,7 +10,15 @@
   "quality": "substantive",
   "ground_truth": "confirmed",
   "reason": "draft quotes the customer's words ('black screen when we login') and matches the live Atera ticket body; proposed only, nothing sent",
-  "verifier": { "id": "did:web:titaniumcomputing.com:angel", "model": "qwen3:1.7b", "independent": true },
+  "verifier": {
+    "id": "did:web:titaniumcomputing.com:angel",
+    "model": "qwen3:1.7b",
+    "independent": true
+  },
   "issued": "2026-06-05T20:14:03Z",
-  "sig": { "alg": "Ed25519", "by": "did:web:titaniumcomputing.com", "value": "PLACEHOLDER-ed25519-sig-see-fixtures-README" }
+  "sig": {
+    "alg": "Ed25519",
+    "by": "did:web:titaniumcomputing.com",
+    "value": "OGRxpHCo4smEl5U9ImlYCUAaXokESg8dk8EhTz3vxUs3tpvoAYE0iONSu7sn8-RLl95X8dMTo9dXxhM_O95cAg"
+  }
 }
