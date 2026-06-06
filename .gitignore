@@ -2,6 +2,8 @@ node_modules/
 dist/
 .DS_Store
 *.log
+# local orchestration/HUD tooling state — never part of the spec
+.omx/
 # never commit signing keys
 *.key
 *.pem

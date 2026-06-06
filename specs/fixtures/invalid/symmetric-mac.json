@@ -1,6 +1,6 @@
 {
-  "_invalid_reason": "FAILS L0: sig.alg is a symmetric MAC (HMAC-SHA256). Portable records MUST use an asymmetric signature (Ed25519) — verifying must never confer the ability to forge. A symmetric MAC is fine inside a single trust boundary but cannot back an L0+ portable AAR.",
-  "aar": "0.1",
+  "_invalid_reason": "FAILS L0: sig.alg is a symmetric MAC (HMAC-SHA256). Portable records MUST use an asymmetric signature (Ed25519) — verifying must never confer forging. A symmetric MAC is fine inside one trust boundary but cannot back an L0+ portable AAR.",
+  "aar": "0.02",
   "subject": "did:web:agents.example.com:worker-7",
   "principal": "did:web:example.com",
   "task": { "id": "task-0042", "claim": "ran the nightly backup and verified the archive" },
@@ -8,7 +8,16 @@
   "quality": "substantive",
   "ground_truth": "confirmed",
   "reason": "backup API reports a 4.2GB archive at 02:11Z; checksum matches",
-  "verifier": { "id": "did:web:example.com:angel", "model": "qwen3:1.7b", "independent": true },
+  "checks": [
+    {
+      "source": "https://backup.example.com/api/archives/latest",
+      "query": "GET /api/archives/latest",
+      "observed_at": "2026-06-05T02:11:30Z",
+      "response_sha256": "sha256-illustrative",
+      "excerpt": "{ size_bytes: 4200000000, checksum_ok: true }"
+    }
+  ],
+  "verifier": { "id": "did:web:example.com:angel", "model": "qwen3:1.7b", "independence": "separate_principal" },
   "issued": "2026-06-05T02:12:40Z",
   "sig": { "alg": "HMAC-SHA256", "by": "did:web:example.com", "value": "PLACEHOLDER-hmac-not-conformant" }
 }

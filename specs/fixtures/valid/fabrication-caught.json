@@ -1,5 +1,5 @@
 {
-  "aar": "0.1",
+  "aar": "0.02",
   "subject": "did:web:agents.example.com:inbox-agent",
   "principal": "did:web:example.com",
   "task": {
@@ -9,16 +9,25 @@
   "verdict": "not_verified",
   "quality": "none",
   "ground_truth": "contradicted",
-  "reason": "agent claimed 0 unread, but the mail API reports 3 unread at check time; claim overridden by ground truth",
+  "reason": "agent claimed 0 unread, but the mail API reports 3 unread at observation time; claim overridden by ground truth",
+  "checks": [
+    {
+      "source": "https://mail.example.com/api/v1/folders/inbox",
+      "query": "GET /api/v1/folders/inbox?unread=true",
+      "observed_at": "2026-06-05T09:31:50Z",
+      "response_sha256": "EhFb18msPOxRmsKRdszWpxHoFQ5CkQBVPlK9JB-Gowc",
+      "excerpt": "{ unread_count: 3 }"
+    }
+  ],
   "verifier": {
-    "id": "did:web:example.com:angel",
+    "id": "did:web:auditor.example.org:angel",
     "model": "claude-haiku-4-5",
-    "independent": true
+    "independence": "third_party"
   },
   "issued": "2026-06-05T09:31:58Z",
   "sig": {
     "alg": "Ed25519",
-    "by": "did:web:example.com",
-    "value": "mtlNeYORNFXxtg5P9ArjHTA62sp9B1Y7WoatvXxGx0b2yZEWqeJsBXuHr3iENPKKIqKvIoNsKdwG72z-QBtuCw"
+    "by": "did:web:auditor.example.org",
+    "value": "4TRZ43wm8AXVHAkHnENMrjIlpgD9Q7l_FB66CDPMulNhdpDWb2kU9DHloZt3XTPwM_tHSEkvdt0vAn26YcxSDA"
   }
 }

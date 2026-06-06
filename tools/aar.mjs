@@ -83,38 +83,46 @@ async function resolveKey(rec, args) {
 
 async function verify(args, file) {
   const rec = readJson(file);
-  const checks = [];
-  // L0 — signature
+  const results = [];
+  // L0 — signature + required fields
   if (!rec.sig || rec.sig.alg !== "Ed25519") {
-    checks.push(["L0", false, `sig.alg must be Ed25519 (got ${rec.sig && rec.sig.alg})`]);
+    results.push(["L0", false, `sig.alg must be Ed25519 (got ${rec.sig && rec.sig.alg})`]);
   } else {
     try {
       const key = await resolveKey(rec, args);
       const ok = crypto.verify(null, Buffer.from(canonical(rec), "utf8"), key, Buffer.from(rec.sig.value, "base64url"));
-      checks.push(["L0", ok, ok ? "Ed25519 signature valid" : "signature does NOT verify"]);
+      results.push(["L0", ok, ok ? "Ed25519 signature valid" : "signature does NOT verify"]);
     } catch (e) {
-      checks.push(["L0", false, `key resolution/verify error: ${e.message}`]);
+      results.push(["L0", false, `key resolution/verify error: ${e.message}`]);
     }
   }
   const missing = ["aar", "subject", "principal", "task", "verdict", "reason", "issued"].filter((k) => rec[k] === undefined);
-  if (missing.length) checks.push(["L0", false, `missing required fields: ${missing.join(", ")}`]);
-  // L1 — ground truth
+  if (missing.length) results.push(["L0", false, `missing required fields: ${missing.join(", ")}`]);
+  // L1 — ground truth, evidence-committed
   if (rec.ground_truth !== undefined) {
-    const ok = ["confirmed", "contradicted", "unchecked"].includes(rec.ground_truth);
-    checks.push(["L1", ok, ok ? `ground_truth=${rec.ground_truth}` : `invalid ground_truth=${rec.ground_truth}`]);
+    const gtOk = ["confirmed", "contradicted", "unchecked"].includes(rec.ground_truth);
+    results.push(["L1", gtOk, gtOk ? `ground_truth=${rec.ground_truth}` : `invalid ground_truth=${rec.ground_truth}`]);
+    if (rec.ground_truth === "confirmed" || rec.ground_truth === "contradicted") {
+      const cs = Array.isArray(rec.checks) ? rec.checks : [];
+      const ok = cs.length > 0 && cs.every((c) => c && c.source && c.query && c.observed_at && c.response_sha256);
+      results.push(["L1", ok, ok
+        ? `evidence committed (${cs.length} check${cs.length > 1 ? "s" : ""})`
+        : "confirmed/contradicted requires checks[] with source, query, observed_at, response_sha256"]);
+    }
   }
-  // L2 — quality + independent verifier
-  if (rec.quality !== undefined || rec.verifier !== undefined) {
-    const qOk = ["substantive", "shallow", "none"].includes(rec.quality);
-    const indep = !!(rec.verifier && rec.verifier.independent === true && rec.verifier.id && rec.verifier.id !== rec.subject);
-    checks.push(["L2", qOk, qOk ? `quality=${rec.quality}` : "invalid/missing quality"]);
-    checks.push(["L2", indep, indep ? "independent verifier (id != subject)" : "verifier self-referential or not independent"]);
+  // L2 — independent verifier (structural) + evidence-backed ground_truth. quality is advisory.
+  if (rec.verifier !== undefined || rec.ground_truth !== undefined) {
+    const indep = !!(rec.verifier && rec.verifier.id && rec.verifier.id !== rec.subject);
+    results.push(["L2", indep, indep ? "independent verifier (id != subject)" : "verifier missing or self-referential (id == subject)"]);
   }
-  const lvlOk = (lvl) => { const cs = checks.filter((c) => c[0] === lvl); return cs.length > 0 && cs.every((c) => c[1]); };
+  const grade = rec.verifier && rec.verifier.independence;
+  if (grade) results.push(["info", true, `independence: ${grade}${grade === "same_principal" ? " (organizational attestation — disclose; not audit-grade)" : ""}`]);
+  if (rec.quality !== undefined) results.push(["info", true, `quality: ${rec.quality} (advisory, non-gating)`]);
+  const lvlOk = (lvl) => { const cs = results.filter((c) => c[0] === lvl); return cs.length > 0 && cs.every((c) => c[1]); };
   let level = "FAIL";
   if (lvlOk("L0")) { level = "L0"; if (lvlOk("L1")) { level = "L1"; if (lvlOk("L2")) level = "L2"; } }
   console.log(`\n${file}`);
-  for (const [lvl, ok, msg] of checks) console.log(`  [${ok ? "✓" : "✗"}] ${lvl}: ${msg}`);
+  for (const [lvl, ok, msg] of results) console.log(`  [${ok ? "✓" : "✗"}] ${lvl === "info" ? "ℹ" : lvl}: ${msg}`);
   console.log(`  → conformance: ${level}`);
   return level;
 }

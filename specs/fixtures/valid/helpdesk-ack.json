@@ -1,5 +1,5 @@
 {
-  "aar": "0.1",
+  "aar": "0.02",
   "subject": "did:web:agents.titaniumcomputing.com:conductor",
   "principal": "did:web:titaniumcomputing.com",
   "task": {
@@ -10,15 +10,24 @@
   "quality": "substantive",
   "ground_truth": "confirmed",
   "reason": "draft quotes the customer's words ('black screen when we login') and matches the live Atera ticket body; proposed only, nothing sent",
+  "checks": [
+    {
+      "source": "https://app.atera.com/api/v3/tickets/56083",
+      "query": "GET /api/v3/tickets/56083",
+      "observed_at": "2026-06-05T20:13:58Z",
+      "response_sha256": "HKLiGO18qOQBbF3wK2_cMeQHhAT_UMEoROCOr1X1VFs",
+      "excerpt": "{ TicketTitle: 'VDI Issue', FirstComment: 'The screen is black when we login' }"
+    }
+  ],
   "verifier": {
     "id": "did:web:titaniumcomputing.com:angel",
     "model": "qwen3:1.7b",
-    "independent": true
+    "independence": "same_principal"
   },
   "issued": "2026-06-05T20:14:03Z",
   "sig": {
     "alg": "Ed25519",
     "by": "did:web:titaniumcomputing.com",
-    "value": "OGRxpHCo4smEl5U9ImlYCUAaXokESg8dk8EhTz3vxUs3tpvoAYE0iONSu7sn8-RLl95X8dMTo9dXxhM_O95cAg"
+    "value": "cB3RTmThnsFPrJgA0kVopM4mJpKtuwqowz5GYLJdn17DcQvKXs_uSvsrxGBaF_EcZvQTKkKBrOKMGTQIx-dLBA"
   }
 }

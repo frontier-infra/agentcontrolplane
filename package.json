@@ -1,6 +1,6 @@
 {
   "name": "@frontier-infra/aar",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "description": "Agent Attestation Record (AAR) — sign + verify portable, ground-truthed proof of what an agent actually did. Reference tooling for agentcontrolplane.org.",
   "type": "module",
   "bin": { "aar": "tools/aar.mjs" },

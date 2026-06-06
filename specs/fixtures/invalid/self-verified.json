@@ -1,6 +1,6 @@
 {
-  "_invalid_reason": "FAILS L2: verifier.id == subject and verifier.independent is false — the agent verified its own work. The thing being judged cannot sign off on itself. (Valid at L0/L1 only if verifier.* is omitted; here it is present and self-referential, so an L2 claim is invalid.)",
-  "aar": "0.1",
+  "_invalid_reason": "FAILS L2: verifier.id == subject — the agent verified its own work. It reaches L1 (signed + evidence-committed) but cannot claim L2 because the verifier IS the subject. Disclosing independence:'same_principal' does not rescue it; id==subject is the disqualifier.",
+  "aar": "0.02",
   "subject": "did:web:agents.example.com:worker-7",
   "principal": "did:web:example.com",
   "task": {
@@ -11,15 +11,24 @@
   "quality": "substantive",
   "ground_truth": "confirmed",
   "reason": "I checked my own work and it looks done",
+  "checks": [
+    {
+      "source": "https://backup.example.com/api/archives/latest",
+      "query": "GET /api/archives/latest",
+      "observed_at": "2026-06-05T02:11:30Z",
+      "response_sha256": "eVjNEPjegQzYkwqL5nIk4REoE1tLeIeBPOBr1-lJHTM",
+      "excerpt": "{ size_bytes: 4200000000, checksum_ok: true }"
+    }
+  ],
   "verifier": {
     "id": "did:web:agents.example.com:worker-7",
     "model": "self",
-    "independent": false
+    "independence": "same_principal"
   },
   "issued": "2026-06-05T02:12:40Z",
   "sig": {
     "alg": "Ed25519",
     "by": "did:web:example.com",
-    "value": "C52fgCtx7VfUOaDmpdMCey8aqtNmt7wo3k7aLjO9-AHx5SY7kJz1xAXrcmBFFEv8U0ewiLfrMGp68BVdAVNQDw"
+    "value": "j4TBJYg9GUdYVw5QL87O37KyGefc6NZ90SxDQUUfoBT8aLkz0IcOXWsRLHdSyhc9ICqi9S1xkv90e0CzV86bDA"
   }
 }
