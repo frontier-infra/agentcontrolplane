@@ -1,0 +1,16 @@
+{
+  "aar": "0.1",
+  "subject": "did:web:agents.example.com:inbox-agent",
+  "principal": "did:web:example.com",
+  "task": {
+    "id": "triage-inbox-0931",
+    "claim": "reviewed the inbox; reported zero unread messages"
+  },
+  "verdict": "not_verified",
+  "quality": "none",
+  "ground_truth": "contradicted",
+  "reason": "agent claimed 0 unread, but the mail API reports 3 unread at check time; claim overridden by ground truth",
+  "verifier": { "id": "did:web:example.com:angel", "model": "claude-haiku-4-5", "independent": true },
+  "issued": "2026-06-05T09:31:58Z",
+  "sig": { "alg": "Ed25519", "by": "did:web:example.com", "value": "PLACEHOLDER-ed25519-sig-see-fixtures-README" }
+}

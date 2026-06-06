@@ -1,0 +1,16 @@
+{
+  "aar": "0.1",
+  "subject": "did:web:agents.titaniumcomputing.com:conductor",
+  "principal": "did:web:titaniumcomputing.com",
+  "task": {
+    "id": "ack-56083",
+    "claim": "drafted acknowledgement for ticket #56083 (Exacta Bookkeeping, VDI black screen)"
+  },
+  "verdict": "verified",
+  "quality": "substantive",
+  "ground_truth": "confirmed",
+  "reason": "draft quotes the customer's words ('black screen when we login') and matches the live Atera ticket body; proposed only, nothing sent",
+  "verifier": { "id": "did:web:titaniumcomputing.com:angel", "model": "qwen3:1.7b", "independent": true },
+  "issued": "2026-06-05T20:14:03Z",
+  "sig": { "alg": "Ed25519", "by": "did:web:titaniumcomputing.com", "value": "PLACEHOLDER-ed25519-sig-see-fixtures-README" }
+}

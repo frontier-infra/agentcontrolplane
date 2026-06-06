@@ -1,0 +1,14 @@
+{
+  "_invalid_reason": "FAILS L0: sig.alg is a symmetric MAC (HMAC-SHA256). Portable records MUST use an asymmetric signature (Ed25519) — verifying must never confer the ability to forge. A symmetric MAC is fine inside a single trust boundary but cannot back an L0+ portable AAR.",
+  "aar": "0.1",
+  "subject": "did:web:agents.example.com:worker-7",
+  "principal": "did:web:example.com",
+  "task": { "id": "task-0042", "claim": "ran the nightly backup and verified the archive" },
+  "verdict": "verified",
+  "quality": "substantive",
+  "ground_truth": "confirmed",
+  "reason": "backup API reports a 4.2GB archive at 02:11Z; checksum matches",
+  "verifier": { "id": "did:web:example.com:angel", "model": "qwen3:1.7b", "independent": true },
+  "issued": "2026-06-05T02:12:40Z",
+  "sig": { "alg": "HMAC-SHA256", "by": "did:web:example.com", "value": "PLACEHOLDER-hmac-not-conformant" }
+}
