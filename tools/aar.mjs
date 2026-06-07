@@ -2,7 +2,7 @@
 // aar.mjs — Agent Attestation Record (AAR) reference signer / verifier.
 //
 // Zero-dependency (Node >= 20). Ed25519 signatures over a minimal JCS-style
-// canonicalization. Reference tooling for agentcontrolplane.org.
+// canonicalization. Reference tooling for agentscontrolplane.org.
 //
 //   aar keygen --did did:web:example.com --out-priv secrets/k.json --out-did specs/fixtures/.well-known/did.json
 //   aar sign   <record.json> --priv secrets/k.json

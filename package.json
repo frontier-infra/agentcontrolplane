@@ -1,7 +1,7 @@
 {
   "name": "@frontier-infra/aar",
   "version": "0.0.2",
-  "description": "Agent Attestation Record (AAR) — sign + verify portable, ground-truthed proof of what an agent actually did. Reference tooling for agentcontrolplane.org.",
+  "description": "Agent Attestation Record (AAR) — sign + verify portable, ground-truthed proof of what an agent actually did. Reference tooling for agentscontrolplane.org.",
   "type": "module",
   "bin": { "aar": "tools/aar.mjs" },
   "scripts": {
@@ -12,5 +12,5 @@
   "license": "MIT",
   "engines": { "node": ">=20" },
   "repository": { "type": "git", "url": "git+https://github.com/frontier-infra/agentcontrolplane.git" },
-  "homepage": "https://agentcontrolplane.org"
+  "homepage": "https://agentscontrolplane.org"
 }
