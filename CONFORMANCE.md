@@ -3,6 +3,12 @@
 Conformance is layered so an agent runtime can become accountable in small, useful steps.
 Each level is a strict superset of the one below. (Spec version `0.02`.)
 
+> **Not a Machine deployment.** This is the **AAR** record-conformance ladder (signed attestation
+> records), *not* [The Machine](https://github.com/frontier-infra/the-machine)'s six-box *deployment*
+> conformance — different ladder, same L0–L3 naming. The Machine's `kit` does not meaningfully score
+> this repo: agentcontrolplane is the attestation **library** that Machine deployments use to emit
+> signed AARs, not a deployment itself.
+
 ## Levels
 
 | Level | Required | Purpose |
