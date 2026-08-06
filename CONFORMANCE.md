@@ -15,7 +15,7 @@ Each level is a strict superset of the one below. (Spec version `0.02`.)
 |---|---|---|
 | **L0** | a signed record that verifies | who vouched, untampered. The point-to-point floor. |
 | **L1** | L0 + `ground_truth` + **`checks` evidence** | the verdict's basis is *committed and inspectable*, not just asserted. |
-| **L2** | L1 + independent verifier (`id ≠ subject`) | no self-grading. `quality` is advisory and does NOT gate. |
+| **L2** | L1 + structurally separate verifier (`id ≠ subject`) | the record does not name its subject as verifier. `quality` is advisory and does NOT gate. |
 | **L3** | L2 + tamper-evident history | a record's past can't be silently rewritten after a key/domain compromise. |
 
 ## Required checks
@@ -36,12 +36,15 @@ Each level is a strict superset of the one below. (Spec version `0.02`.)
   point-to-point (may hold secrets/PII); only the hash is in the portable record.
 - `unchecked` is not a pass — it is honest absence of a ground-truth source.
 
-### L2 — Independent verifier
+### L2 — Structurally separate verifier
 - `verifier.id` present and **`verifier.id != subject`** (the verifier is not the agent).
 - L1 satisfied (evidence-backed ground truth).
 - `verifier.independence ∈ {same_principal, separate_principal, third_party}` is **disclosed**.
   It does not gate L2, but a consumer policy MAY require `separate_principal`/`third_party` for
   "audit-grade." `same_principal` = honest organizational attestation.
+- A deterministic scorer, separate process, or separate signing key does not by itself establish
+  organizational independence. Consumers MUST evaluate the disclosed grade under their own trust
+  policy.
 - `quality` is **advisory metadata only** — it never gates conformance.
 
 ### L3 — Tamper-evident

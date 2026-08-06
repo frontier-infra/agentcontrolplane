@@ -74,6 +74,7 @@ are adopted unchanged (§6). AAR defines the proof record (and, later, the grant
 | `checks` | L1* | array | Evidence commitments. **Required when `ground_truth` is `confirmed` or `contradicted`** (§3.2). |
 | `verifier.id` | L2 | DID | Who verified. **MUST differ from `subject`** at L2+. |
 | `verifier.model` | – | string | Model/tool that verified (provenance). |
+| `verifier.policy_sha256` | – | string | Hex SHA-256 of the versioned scorer policy or lock used for the verdict. |
 | `verifier.independence` | L2 | enum | `same_principal` \| `separate_principal` \| `third_party`. Disclosed, not asserted-true (§4). |
 | `issued` | ✓ | RFC 3339 | When the record was signed (UTC). |
 | `sig` | ✓ | object | `{ alg, by, value }` — §5. |
@@ -111,11 +112,28 @@ secrets/PII) — only the hash is in the portable record.
 re-runs `query` against `source`, recomputes the hash, and confirms the same verdict — *without
 trusting the verifier*. Public re-run is not required (many checks hit private/ephemeral state).
 
+### 3.3 Structural separation is not organizational independence
+
+AAR records three related facts that consumers MUST NOT collapse into one claim:
+
+1. `verifier.id != subject` proves only **structural verifier separation** and gates L2. It prevents
+   the record from naming the subject itself as verifier.
+2. A versioned `verifier.model` plus `verifier.policy_sha256` can make the scoring procedure
+   deterministic and comparable across records. That is **method separation**, not proof of a
+   separate owner.
+3. `verifier.independence` discloses the claimed organizational relationship. A
+   `same_principal` record remains an organizational attestation even when deterministic code,
+   a separate process, or a separate key produced it.
+
+Consumers that require an external audit MUST require `separate_principal` or `third_party` under
+their own identity/trust policy. AAR signs the disclosure; it does not independently establish the
+organizational relationship.
+
 ## 4. Threat model
 
 | Threat | Defended by | Tier |
 |---|---|---|
-| Agent grades its own work | `verifier.id ≠ subject` | L2 |
+| Record names its subject as verifier | `verifier.id ≠ subject` (structural separation) | L2 |
 | "We promise we checked" (unverifiable verdict) | `checks` evidence commitment + custody rule | L1 |
 | Record tampered in transit | Ed25519 signature | L0 |
 | Verdict is a graded opinion, not a fact | `quality` is advisory; only structural facts gate conformance | L2 |
@@ -163,7 +181,7 @@ See [CONFORMANCE.md](../CONFORMANCE.md) for the checklist.
   `sig`) that verifies. Point-to-point floor.
 - **L1** — `ground_truth` present, **and** `checks` present + well-formed when it is
   `confirmed`/`contradicted` (evidence-committed, not asserted).
-- **L2** — independent verifier (`verifier.id` present, `≠ subject`) **and** evidence-backed
+- **L2** — structurally separate verifier (`verifier.id` present, `≠ subject`) **and** evidence-backed
   ground_truth (L1). `verifier.independence` is **disclosed**. `quality` is advisory and does NOT
   gate L2.
 - **L3** — tamper-evident history (`prior` chain and/or transparency-log `log` commitment). This is
