@@ -1,0 +1,22 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1"
+  ],
+  "id": "did:web:titaniumcomputing.com",
+  "verificationMethod": [
+    {
+      "id": "did:web:titaniumcomputing.com#key-1",
+      "type": "JsonWebKey2020",
+      "controller": "did:web:titaniumcomputing.com",
+      "publicKeyJwk": {
+        "crv": "Ed25519",
+        "x": "n9Ne_dRx6YjHEa9yK6-JMyDpuIU-_8QWo0opuE7K5a4",
+        "kty": "OKP"
+      }
+    }
+  ],
+  "assertionMethod": [
+    "did:web:titaniumcomputing.com#key-1"
+  ]
+}

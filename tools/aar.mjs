@@ -76,8 +76,14 @@ async function resolveKey(rec, args) {
     const tail = parts.length ? parts.join("/") + "/" : "";
     doc = await (await fetch(`https://${host}/${tail}.well-known/did.json`)).json();
   }
-  const vm = (doc.verificationMethod || []).find((m) => m.publicKeyJwk);
-  if (!vm) throw new Error("no publicKeyJwk in did document");
+  if (!doc || doc.id !== rec.sig.by) {
+    throw new Error(`DID document id ${doc && doc.id} does not match sig.by ${rec.sig.by}`);
+  }
+  const assertionIds = new Set((doc.assertionMethod || []).map((entry) =>
+    typeof entry === "string" ? entry : entry && entry.id).filter(Boolean));
+  const vm = (doc.verificationMethod || []).find((method) =>
+    method && method.publicKeyJwk && method.controller === rec.sig.by && assertionIds.has(method.id));
+  if (!vm) throw new Error("no assertionMethod publicKeyJwk controlled by sig.by in DID document");
   return crypto.createPublicKey({ key: vm.publicKeyJwk, format: "jwk" });
 }
 

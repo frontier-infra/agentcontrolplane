@@ -5,7 +5,7 @@
   "type": "module",
   "bin": { "aar": "tools/aar.mjs" },
   "scripts": {
-    "verify:fixtures": "node tools/aar.mjs verify specs/fixtures/valid/helpdesk-ack.json --did-json specs/fixtures/.well-known/did.json && node tools/aar.mjs verify specs/fixtures/valid/fabrication-caught.json --did-json specs/fixtures/.well-known/did.json"
+    "verify:fixtures": "node tools/aar.mjs verify specs/fixtures/valid/helpdesk-ack.json --did-json specs/fixtures/dids/titaniumcomputing.com.json && node tools/aar.mjs verify specs/fixtures/valid/fabrication-caught.json --did-json specs/fixtures/dids/auditor.example.org.json"
   },
   "files": ["tools", "specs", "README.md", "CONFORMANCE.md", "GOVERNANCE.md", "LICENSE"],
   "keywords": ["agent", "attestation", "provenance", "did", "ed25519", "agent-control-plane", "governance"],
